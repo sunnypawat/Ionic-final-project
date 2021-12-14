@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Student database
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,112 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">Student database</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>First name</ion-card-subtitle>
+      <ion-input placeholder="Enter first name" [(ngModel)]="firstName"></ion-input>
+
+      <ion-card-subtitle>Last name</ion-card-subtitle>
+      <ion-input placeholder="Enter last name" [(ngModel)]="lastName"></ion-input>
+      
+      <ion-card-subtitle>Sex</ion-card-subtitle>
+      <ion-select placeholder="Select One" [(ngModel)]="sex">
+        <ion-select-option value="0">Male</ion-select-option>
+        <ion-select-option value="1">Female</ion-select-option>
+        <ion-select-option value="2">Others/Prefer not to say</ion-select-option>
+      </ion-select>
+
+      <ion-label>DOB</ion-label>
+      <ion-datetime placeholder="Choose Date" displayFormat="DD/MM/YYYY" pickerFormat="DD_MM_YYYY" [(ngModel)]="date"></ion-datetime>
+
+      <ion-card-subtitle>Faculty</ion-card-subtitle>
+      <ion-select placeholder="Select One" [(ngModel)]="faculty">
+        <ion-select-option value="Business">Business</ion-select-option>
+        <ion-select-option value="Engineering">Engineering</ion-select-option>
+        <ion-select-option value="Cyber Security">Cyber Security</ion-select-option>
+        <ion-select-option value="Economics">Economics</ion-select-option>
+        <ion-select-option value="Medicine">Medicine</ion-select-option>
+        <ion-select-option value="Laws">Laws</ion-select-option>
+        <ion-select-option value="Social Science">Social Science</ion-select-option>
+        <ion-select-option value="Architecture">Architecture</ion-select-option>
+        <ion-select-option value="Science">Science</ion-select-option>
+        <ion-select-option value="Psychology">Psychology</ion-select-option>
+        <ion-select-option value="Dentistry">Dentistry</ion-select-option>
+        <ion-select-option value="Sport Science">Sport Science</ion-select-option>
+      </ion-select>
+      <ion-button fill="outline" (click)="insertData()">Confirm</ion-button>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+    <ion-card-subtitle>Search by name</ion-card-subtitle>
+    <ion-card-subtitle>First name</ion-card-subtitle>
+    <ion-input placeholder="Enter first name" [(ngModel)]="searchFirstName"></ion-input>
+
+    <ion-card-subtitle>Last name</ion-card-subtitle>
+    <ion-input placeholder="Enter last name" [(ngModel)]="searchLastName"></ion-input>
+    <ion-button fill="outline" (click)="getStudent()">Confirm</ion-button>
+    </ion-card-header>
+   
+    <div *ngIf = "info$ | async as d">
+      <div *ngFor = "let r of d.data">
+        <ion-card-content>
+          <ion-card-content>
+            <b>First Name:</b>{{r.FirstName}} <br />
+            <b>Last Name:</b>{{r.LastName}}<br />
+            <b>Sex:</b>{{r.Sex == 0 ? 'Male' : r.Sex == 1 ? 'Female' : 'Others'}}<br />
+            <b>Faculty:</b>{{r.Faculty}}<br />
+            <b>DOB:</b>{{r.Date}}
+          </ion-card-content>
+        </ion-card-content>
+      </div>
+    </div>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Student demographic
+    </ion-card-header>
+    <ion-card-content>
+      <ion-card-subtitle>Number of Students by Faculty</ion-card-subtitle>
+      <canvas #barCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Data by Faculty</ion-card-subtitle>
+      <ion-select placeholder="Select One" [(ngModel)]="selector">
+        <ion-select-option value="All">All</ion-select-option>
+        <ion-select-option value="Business">Business</ion-select-option>
+        <ion-select-option value="Engineering">Engineering</ion-select-option>
+        <ion-select-option value="Cyber Security">Cyber Security</ion-select-option>
+        <ion-select-option value="Economics">Economics</ion-select-option>
+        <ion-select-option value="Medicine">Medicine</ion-select-option>
+        <ion-select-option value="Laws">Laws</ion-select-option>
+        <ion-select-option value="Social Science">Social Science</ion-select-option>
+        <ion-select-option value="Architecture">Architecture</ion-select-option>
+        <ion-select-option value="Science">Science</ion-select-option>
+        <ion-select-option value="Psychology">Psychology</ion-select-option>
+        <ion-select-option value="Dentistry">Dentistry</ion-select-option>
+        <ion-select-option value="Sport Science">Sport Science</ion-select-option>
+      </ion-select>
+      <ion-button fill="outline" (click)="updateFaculty()">Confirm</ion-button>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-card-subtitle>Number of Students by Genders</ion-card-subtitle>
+      <canvas #doughnutCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+      
+    </ion-card-content>
+    <ion-card-content>
+      <ion-card-subtitle>Number of Students by Age</ion-card-subtitle>
+      <canvas #dateBarCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
